@@ -6,6 +6,7 @@
 package com.codeceo.views;
 
 import com.ceodeceo.utils.isDateFormat;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -36,10 +37,13 @@ public class Lectura extends javax.swing.JFrame {
     int dimLecturas = 0;
     int indLecturas = 0;
     int indFechas = 0;
+    int xMouse, yMouse;
 
     public Lectura() {
         initComponents();
-
+        //Para quitar la barra de titulo al JInternalFrame
+        //((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
+        
         establecerModel();
 
         this.tblDatos.setModel(modelo);
@@ -50,11 +54,8 @@ public class Lectura extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         btnSeleccionar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblDatos = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jcbHora = new javax.swing.JComboBox<>();
         jcbFecha = new javax.swing.JComboBox<>();
@@ -62,46 +63,37 @@ public class Lectura extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         btnLimpiar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblDatos = new rojerusan.RSTableMetro();
+        pnlHeader = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lblExit = new javax.swing.JLabel();
+        lblCirculo = new javax.swing.JLabel();
+        lblIcon = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 80, 239))); // NOI18N
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel1.setText("LECTURA DE ARCHIVO");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabel2.setText("Seleccionar archivo:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 50, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, -1, -1));
 
         btnSeleccionar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btnSeleccionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.images/documentos.png"))); // NOI18N
         btnSeleccionar.setText("Seleccionar...");
         btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSeleccionarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 50, 170, -1));
-
-        tblDatos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tblDatos);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(24, 100, 1013, 280));
+        jPanel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 170, -1));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Consulta"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consulta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Roboto", 1, 14))); // NOI18N
 
         jcbFecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,6 +102,7 @@ public class Lectura extends javax.swing.JFrame {
         });
 
         btnConsulta1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        btnConsulta1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.images/consulta.png"))); // NOI18N
         btnConsulta1.setText("Consultar demanda");
         btnConsulta1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,7 +125,7 @@ public class Lectura extends javax.swing.JFrame {
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jcbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 234, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 354, Short.MAX_VALUE)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jcbHora, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -140,7 +133,7 @@ public class Lectura extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnConsulta1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(339, 339, 339))
+                .addGap(415, 415, 415))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,12 +148,12 @@ public class Lectura extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcbFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
                 .addComponent(btnConsulta1)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 1010, 190));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1130, 190));
 
         btnLimpiar.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.images/limpiar.png"))); // NOI18N
@@ -170,19 +163,83 @@ public class Lectura extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 50, -1, 40));
+        jPanel1.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 180, -1, 40));
+
+        tblDatos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblDatos.setColorFilasForeground1(new java.awt.Color(0, 0, 0));
+        tblDatos.setColorFilasForeground2(new java.awt.Color(0, 0, 0));
+        tblDatos.setFuenteFilas(new java.awt.Font("Roboto", 0, 13)); // NOI18N
+        tblDatos.setFuenteFilasSelect(new java.awt.Font("Roboto", 1, 13)); // NOI18N
+        tblDatos.setFuenteHead(new java.awt.Font("Roboto", 1, 13)); // NOI18N
+        tblDatos.setRowHeight(20);
+        jScrollPane2.setViewportView(tblDatos);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 1130, 340));
+
+        pnlHeader.setBackground(new java.awt.Color(0, 80, 239));
+        pnlHeader.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                pnlHeaderMouseDragged(evt);
+            }
+        });
+        pnlHeader.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlHeaderMousePressed(evt);
+            }
+        });
+        pnlHeader.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Roboto", 3, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("LECTURA DE ARCHIVOS");
+        pnlHeader.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(483, 33, -1, -1));
+
+        lblExit.setBackground(new java.awt.Color(0, 80, 239));
+        lblExit.setFont(new java.awt.Font("Roboto", 0, 30)); // NOI18N
+        lblExit.setForeground(new java.awt.Color(255, 255, 255));
+        lblExit.setText("X");
+        lblExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblExitMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblExitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblExitMouseExited(evt);
+            }
+        });
+        pnlHeader.add(lblExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1128, 19, -1, -1));
+
+        lblCirculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.images/grafico-circular.png"))); // NOI18N
+        pnlHeader.add(lblCirculo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, -1, 130));
+
+        lblIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.images/tabla-de-datos.png"))); // NOI18N
+        pnlHeader.add(lblIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
+
+        jPanel1.add(pnlHeader, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1170, 130));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1065, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
         );
 
         pack();
@@ -388,6 +445,27 @@ public class Lectura extends javax.swing.JFrame {
         vaciarModel();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void lblExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExitMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_lblExitMouseClicked
+
+    private void lblExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExitMouseEntered
+        this.lblExit.setBackground(new Color(0,80,239));  //232,17,35
+    }//GEN-LAST:event_lblExitMouseEntered
+
+    private void lblExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExitMouseExited
+        this.lblExit.setBackground(new Color(232,17,35));  //
+    }//GEN-LAST:event_lblExitMouseExited
+
+    private void pnlHeaderMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlHeaderMousePressed
+        xMouse = evt.getX();
+        yMouse = evt.getY();
+    }//GEN-LAST:event_pnlHeaderMousePressed
+
+    private void pnlHeaderMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlHeaderMouseDragged
+        this.setLocation(xMouse, yMouse);
+    }//GEN-LAST:event_pnlHeaderMouseDragged
+
     /**
      * @param args the command line arguments
      */
@@ -436,10 +514,14 @@ public class Lectura extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox<String> jcbFecha;
     private javax.swing.JComboBox<String> jcbHora;
-    private javax.swing.JTable tblDatos;
+    private javax.swing.JLabel lblCirculo;
+    private javax.swing.JLabel lblExit;
+    private javax.swing.JLabel lblIcon;
+    private javax.swing.JPanel pnlHeader;
+    private rojerusan.RSTableMetro tblDatos;
     // End of variables declaration//GEN-END:variables
 
     private void sumatoriasEnergiaPotencia(String[] registro) {
